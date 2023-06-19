@@ -10,10 +10,18 @@ function Dictionary() {
   const [data, setData] = useState([]);
   const [searchInput, setSearchInput] = useState("");
   const [searchName, setSearchName] = useState("");
+  const [pageNo, setPageNo] = useState(1);
+  const [start, setStart] = useState(0);
 
   function handleSubmit(e) {
     e.preventDefault();
     setSearchName(searchInput);
+  }
+
+  function handlePageNo(e) {
+    console.log(typeof e.target.value);
+    console.log(typeof pageNo);
+    setPageNo(e.target.value);
   }
 
   useEffect(() => {
@@ -21,9 +29,9 @@ function Dictionary() {
       type,
       searchName,
       numOfRows: 20,
-      pageNo: 1,
+      pageNo,
     }).then((res) => {
-      console.log(res);
+      //   console.log(res);
       if (res) {
         if (res.length) {
           setData(res);
@@ -34,7 +42,7 @@ function Dictionary() {
         console.log("검색결과가 존재하지 않음");
       }
     });
-  }, [type, searchName]);
+  }, [type, searchName, pageNo]);
 
   if (data && data.length > 0) {
     return (
@@ -45,6 +53,7 @@ function Dictionary() {
               key={e}
               onClick={() => {
                 setData([]);
+                setPageNo(1);
                 setSearchName("");
                 setSearchInput("");
                 setType(e);
@@ -67,7 +76,6 @@ function Dictionary() {
           </h2>
           <p>{description[type]}</p>
         </div>
-
         <div className={style.content}>
           {data.map((e) => {
             return (
@@ -80,6 +88,23 @@ function Dictionary() {
               />
             );
           })}
+        </div>
+        <div className={style.pagination}>
+          <button onClick={() => setStart(start - 5)}>&lt;</button>
+          {Array(5)
+            .fill()
+            .map((v, i) => i + 1 + start)
+            .map((e) => (
+              <button
+                key={e}
+                className={pageNo === e ? style.selected : ""}
+                onClick={handlePageNo}
+                value={e}
+              >
+                {e}
+              </button>
+            ))}
+          <button onClick={() => setStart(start + 5)}> &gt;</button>
         </div>
       </div>
     );

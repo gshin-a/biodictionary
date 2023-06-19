@@ -10,7 +10,7 @@ function Item({ type, id, name }) {
       type,
       id,
     }).then((res) => {
-      console.log(res, type, id);
+      // console.log(res, type, id);
       setData(res);
     });
   }, [type, id]);
