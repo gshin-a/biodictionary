@@ -44,6 +44,7 @@ function Dictionary() {
             <button
               key={e}
               onClick={() => {
+                setData([]);
                 setSearchName("");
                 setSearchInput("");
                 setType(e);
