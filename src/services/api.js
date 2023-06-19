@@ -1,50 +1,5 @@
 import { xmlToJson } from "../utils/xmlToJson";
-
-const listURL = [
-  {
-    type: "mamm",
-    url: "http://apis.data.go.kr/1400119/MammService/mammIlstrSearch",
-  },
-  {
-    type: "bird",
-    url: "http://apis.data.go.kr/1400119/BirdService/birdIlstrSearch",
-  },
-  {
-    type: "fungi",
-    url: "/openapi/service/rest/FungiService/fngsIlstrSearch",
-  },
-  {
-    type: "insect",
-    url: "/openapi/service/rest/InsectService/isctIlstrSearch",
-  },
-  {
-    type: "plant",
-    url: "/openapi/service/rest/PlantService/plntIlstrSearch",
-  },
-];
-
-const oneURL = [
-  {
-    type: "mamm",
-    url: "http://apis.data.go.kr/1400119/MammService/mammIlstrInfo",
-  },
-  {
-    type: "bird",
-    url: "http://apis.data.go.kr/1400119/BirdService/birdIlstrInfo",
-  },
-  {
-    type: "fungi",
-    url: "/openapi/service/rest/FungiService/fngsIlstrInfo",
-  },
-  {
-    type: "insect",
-    url: "/openapi/service/rest/InsectService/isctIlstrInfo",
-  },
-  {
-    type: "plant",
-    url: "/openapi/service/rest/PlantService/plntIlstrInfo",
-  },
-];
+import { listURL, oneURL } from "../constants/api";
 
 export async function requestList({ type, searchName, numOfRows, pageNo }) {
   const targetURL = listURL.find((e) => e.type === type).url;
@@ -58,8 +13,6 @@ export async function requestList({ type, searchName, numOfRows, pageNo }) {
   const data = xmlToJson(
     new DOMParser().parseFromString(resToText, "text/xml")
   );
-
-  console.log("data", data);
 
   return data.response.body.items.item;
 }
