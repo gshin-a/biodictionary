@@ -84,7 +84,11 @@ function Dictionary() {
       </div>
     );
   } else {
-    return <div>loading</div>;
+    return (
+      <div className={style.loading}>
+        <img src="/assets/image/loading.gif" alt="loading" />
+      </div>
+    );
   }
 }
 
