@@ -14,7 +14,7 @@ export async function requestList({ type, searchName, numOfRows, pageNo }) {
     new DOMParser().parseFromString(resToText, "text/xml")
   );
 
-  return data.response.body.items.item;
+  return data.response.body;
 }
 
 export async function requestOne({ type, id }) {

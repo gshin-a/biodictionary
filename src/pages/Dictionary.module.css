@@ -65,6 +65,18 @@ button.selected {
   color: #818181;
 }
 
+.count {
+  width: 1100px;
+  margin: 10px auto;
+  color: #818181;
+  text-align: right;
+}
+
+.count strong {
+  font-weight: bold;
+  color: #ffb103;
+}
+
 .content {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -83,6 +95,17 @@ button.selected {
 
 .loading img {
   border-radius: 50%;
+}
+
+.loading2 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.hidden {
+  display: none;
 }
 
 .pagination {

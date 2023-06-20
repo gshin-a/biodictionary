@@ -8,20 +8,38 @@ import { typeList, info, description } from "../constants/info";
 function Dictionary() {
   const [type, setType] = useState("mamm");
   const [data, setData] = useState([]);
+  const [totalCount, setTotalCount] = useState(0);
   const [searchInput, setSearchInput] = useState("");
   const [searchName, setSearchName] = useState("");
   const [pageNo, setPageNo] = useState(1);
   const [start, setStart] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   function handleSubmit(e) {
     e.preventDefault();
     setSearchName(searchInput);
   }
 
-  function handlePageNo(e) {
-    console.log(typeof e.target.value);
-    console.log(typeof pageNo);
-    setPageNo(e.target.value);
+  function handlePageNo(e, type = "event") {
+    window.scrollTo(0, 0);
+    setLoading(true);
+    // eslint-disable-next-line default-case
+    switch (type) {
+      case "event":
+        setPageNo(Number(e.target.value));
+        break;
+      case "prev":
+        if (e % 5 === 1) {
+          setStart(start - 5);
+        }
+        setPageNo(e - 1);
+        break;
+      case "next":
+        if (e % 5 === 0) {
+          setStart(start + 5);
+        }
+        setPageNo(e + 1);
+    }
   }
 
   useEffect(() => {
@@ -31,16 +49,18 @@ function Dictionary() {
       numOfRows: 20,
       pageNo,
     }).then((res) => {
-      //   console.log(res);
-      if (res) {
-        if (res.length) {
-          setData(res);
+      setTotalCount(res.totalCount);
+      if (res && res.items.item) {
+        const data = res.items.item;
+        if (data.length) {
+          setData(data);
         } else {
-          setData([res]);
+          setData([data]);
         }
       } else {
         console.log("검색결과가 존재하지 않음");
       }
+      setLoading(false);
     });
   }, [type, searchName, pageNo]);
 
@@ -52,13 +72,16 @@ function Dictionary() {
             <button
               key={e}
               onClick={() => {
+                setLoading(true);
                 setData([]);
+                setStart(0);
                 setPageNo(1);
                 setSearchName("");
                 setSearchInput("");
                 setType(e);
               }}
               className={type === e ? style.selected : ""}
+              disabled={loading}
             >
               {info[e].kor}
             </button>
@@ -76,6 +99,9 @@ function Dictionary() {
           </h2>
           <p>{description[type]}</p>
         </div>
+        <div className={style.count}>
+          전체 생물 수 <strong>{totalCount}</strong>
+        </div>
         <div className={style.content}>
           {data.map((e) => {
             return (
@@ -90,7 +116,12 @@ function Dictionary() {
           })}
         </div>
         <div className={style.pagination}>
-          <button onClick={() => setStart(start - 5)}>&lt;</button>
+          <button
+            onClick={() => handlePageNo(pageNo, "prev")}
+            disabled={pageNo <= 1 || loading}
+          >
+            &lt;
+          </button>
           {Array(5)
             .fill()
             .map((v, i) => i + 1 + start)
@@ -100,11 +131,26 @@ function Dictionary() {
                 className={pageNo === e ? style.selected : ""}
                 onClick={handlePageNo}
                 value={e}
+                disabled={
+                  loading || pageNo === e || e > Math.ceil(totalCount / 20)
+                }
               >
                 {e}
               </button>
             ))}
-          <button onClick={() => setStart(start + 5)}> &gt;</button>
+          <button
+            onClick={() => handlePageNo(pageNo, "next")}
+            disabled={pageNo >= Math.ceil(totalCount / 20) || loading}
+          >
+            &gt;
+          </button>
+        </div>
+        <div
+          className={`${style.loading} ${style.loading2} ${
+            loading ? "" : style.hidden
+          }`}
+        >
+          <img src="/assets/image/loading.gif" alt="loading" />
         </div>
       </div>
     );
