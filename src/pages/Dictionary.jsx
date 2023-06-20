@@ -81,8 +81,10 @@ function Dictionary() {
                 setSearchInput("");
                 setType(e);
               }}
-              className={type === e ? style.selected : ""}
-              disabled={loading}
+              className={`${type === e ? style.selected : ""} ${
+                type === e ? style.disable : ""
+              }`}
+              disabled={loading || type === e}
             >
               {info[e].kor}
             </button>
@@ -118,6 +120,7 @@ function Dictionary() {
         </div>
         <div className={style.pagination}>
           <button
+            className={pageNo <= 1 || loading ? style.disable : ""}
             onClick={() => handlePageNo(pageNo, "prev")}
             disabled={pageNo <= 1 || loading}
           >
@@ -129,7 +132,11 @@ function Dictionary() {
             .map((e) => (
               <button
                 key={e}
-                className={pageNo === e ? style.selected : ""}
+                className={`${pageNo === e ? style.selected : ""} ${
+                  loading || pageNo === e || e > Math.ceil(totalCount / 20)
+                    ? style.disable
+                    : ""
+                }`}
                 onClick={handlePageNo}
                 value={e}
                 disabled={
@@ -140,6 +147,11 @@ function Dictionary() {
               </button>
             ))}
           <button
+            className={
+              pageNo >= Math.ceil(totalCount / 20) || loading
+                ? style.disable
+                : ""
+            }
             onClick={() => handlePageNo(pageNo, "next")}
             disabled={pageNo >= Math.ceil(totalCount / 20) || loading}
           >
