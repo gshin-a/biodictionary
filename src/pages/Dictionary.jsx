@@ -60,6 +60,7 @@ function Dictionary() {
         }
       } else {
         alert("검색결과가 존재하지 않습니다.");
+        setSearchName("");
       }
       setLoading(false);
     });
@@ -113,7 +114,7 @@ function Dictionary() {
                 type={type}
                 id={e[info[type].id]}
                 name={e[info[type].name]}
-                imgUrl={e.imgUrl}
+                pageNo={pageNo}
               />
             );
           })}

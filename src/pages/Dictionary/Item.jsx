@@ -3,7 +3,7 @@ import style from "../Dictionary.module.css";
 import { requestOne } from "../../services/api";
 import { useNavigate } from "react-router-dom";
 
-function Item({ type, id, name }) {
+function Item({ type, id, name, pageNo }) {
   const [data, setData] = useState();
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ function Item({ type, id, name }) {
       if (!data) {
         alert("상세보기가 불가능한 생물입니다.");
       } else {
-        const sendData = { data, type };
+        const sendData = { data, type, pageNo };
         navigate("/detail", { state: sendData });
       }
     } else {

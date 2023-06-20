@@ -29,5 +29,6 @@ export async function requestOne({ type, id }) {
   const data = xmlToJson(
     new DOMParser().parseFromString(resToText, "text/xml")
   );
+
   return data.response.body.item;
 }

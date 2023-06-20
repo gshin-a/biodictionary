@@ -1,12 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import style from "./Detail.module.css";
 import { useLocation } from "react-router-dom";
 import { info, detailInfo } from "../constants/info";
+import { requestList } from "../services/api";
 
 function Detail() {
   const { state } = useLocation();
+  const [recommend, setRecommend] = useState([]);
+
+  useEffect(() => {
+    requestList({
+      type: state.type,
+      searchName: "",
+      numOfRows: 20,
+      pageNo: state.pageNo,
+    }).then((res) => {
+      console.log(res.items.item);
+      if (res) {
+        setRecommend(res.items.item.slice(0, 5));
+      }
+    });
+  }, [state]);
 
   if (state.data) {
+    console.log(state.data);
     return (
       <div>
         <div className={style.title_wrap}>
@@ -64,7 +81,27 @@ function Detail() {
               </tbody>
             </table>
           </section>
-          <section></section>
+          <section>
+            {recommend.map((e) => (
+              <div
+                className={`${style.recommend}`}
+                key={e[info[state.type].id]}
+              >
+                <img
+                  className={
+                    !e.imgUrl || e.imgUrl === "NONE" ? style.default : ""
+                  }
+                  src={
+                    !e.imgUrl || e.imgUrl === "NONE"
+                      ? `/assets/image/${state.type}-default.png`
+                      : e.imgUrl
+                  }
+                  alt="section2 img"
+                />
+                <p>{e[detailInfo[state.type]["국명"][0]]}</p>
+              </div>
+            ))}
+          </section>
         </div>
       </div>
     );

@@ -100,9 +100,40 @@
 .content section:nth-child(2) {
   display: block;
   width: 30%;
-  height: 500px;
+  height: auto;
   border: 1px solid rgba(216, 216, 216, 0.7);
   border-radius: 5px;
+}
+
+.recommend {
+  padding: 25px 50px;
+}
+
+.recommend:first-child {
+  padding-top: 50px;
+}
+
+.recommend:last-child {
+  padding-bottom: 50px;
+}
+
+.recommend img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.recommend .default {
+  background-color: #13a8cf;
+  filter: invert(90%);
+  object-fit: contain;
+}
+
+.recommend p {
+  font-weight: bold;
+  font-size: 20px;
+  text-align: center;
 }
 
 .loading {
