@@ -1,0 +1,14 @@
+.content_image {
+  width: 500px;
+  height: 500px;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.default_image {
+  background-size: 18%;
+  background-position: center;
+  background-repeat: repeat;
+  filter: invert(80%);
+}
