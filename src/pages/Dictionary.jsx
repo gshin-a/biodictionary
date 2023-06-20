@@ -17,6 +17,7 @@ function Dictionary() {
 
   function handleSubmit(e) {
     e.preventDefault();
+    setLoading(true);
     setSearchName(searchInput);
   }
 
@@ -58,7 +59,7 @@ function Dictionary() {
           setData([data]);
         }
       } else {
-        console.log("검색결과가 존재하지 않음");
+        alert("검색결과가 존재하지 않습니다.");
       }
       setLoading(false);
     });
