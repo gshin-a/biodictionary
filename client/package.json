@@ -36,5 +36,6 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://openapi.nature.go.kr"
+  "proxy": "http://openapi.nature.go.kr",
+  "homepage": "https://gshin-a.github.io/biodictionary/client/"
 }
